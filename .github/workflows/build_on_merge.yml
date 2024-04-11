@@ -26,6 +26,11 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
+      - name: Configure GIT
+        run: |
+          git config --global user.name 'rtx-inspire'
+          git config --global user.email 'inspiringfacts57@gmail.com'
+
       - name: Create tag
         run: mvn scm:tag
 
@@ -34,8 +39,6 @@ jobs:
 
       - name: Commit Changes
         run: |
-          git config --global user.name 'Your Name'
-          git config --global user.email 'youremail@example.com'
           git add .
           git commit -m "Update version number"
 
