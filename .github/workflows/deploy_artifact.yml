@@ -20,6 +20,6 @@ jobs:
         run: mvn -B package --file pom.xml
 
       - name: Publish to GitHub Packages
-        run: mvn deploy
+        run: mvn -s ./settings.xml deploy
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
