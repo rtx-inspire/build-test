@@ -5,7 +5,7 @@ on:
     types: [trigger-release]
 
 jobs:
-  release:
+  create-release:
     runs-on: ubuntu-latest
 
     steps:
