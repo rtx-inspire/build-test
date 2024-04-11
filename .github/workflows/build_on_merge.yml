@@ -53,7 +53,7 @@ jobs:
       - name: Commit Changes
         run: |
           git add .
-          git commit -m "Update version number"
+          git commit -m "Actions Updated POM"
 
       - name: Push Changes
         if: github.ref == 'refs/heads/master'
