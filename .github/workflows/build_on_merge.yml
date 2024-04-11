@@ -32,7 +32,20 @@ jobs:
           git config --global user.email 'inspiringfacts57@gmail.com'
 
       - name: Create tag
-        run: mvn scm:tag
+        id: create_tag
+        run: |
+          mvn scm:tag
+          
+          TAG=$(git describe --tags --abbrev=0)
+          echo "Tag: $TAG"
+          echo "::set-output name=tag::$TAG"
+
+      - name: Trigger Release Workflow
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.PAT }}
+          event-type: trigger-release
+          client-payload: '{"tag_name": "${{ steps.create_tag.outputs.tag }}"}'
 
       - name: Update pom to next version
         run:  mvn -U build-helper:parse-version versions:set -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.nextMinorVersion}' versions:commit
