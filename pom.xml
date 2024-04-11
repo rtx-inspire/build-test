@@ -4,7 +4,7 @@
 
   <groupId>com.pratifolio</groupId>
   <artifactId>deploy_test</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.1</version>
   <packaging>jar</packaging>
 
   <name>deploy_test</name>
@@ -14,6 +14,51 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+  <scm>
+    <connection>scm:git:https://github.com/rtx-inspire/build-test.git</connection>
+    <developerConnection>scm:git:https://github.com/rtx-inspire/build-test.git</developerConnection>
+    <url>https://github.com/rtx-inspire/build-test</url>
+    <tag>${project.version}</tag>
+  </scm>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.10.1</version>
+        <configuration>
+          <source>17</source>
+          <target>17</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.5.0</version>
+        <executions>
+          <execution>
+            <configuration>
+              <goals>pre-integration-test</goals>
+              <preparationGoals>package</preparationGoals>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>2.0.1</version>
+        <configuration>
+          <connectionUrl>scm:git:https://github.com/rtx-inspire/build-test.git</connectionUrl>
+          <username>rtx-inspire</username>
+          <password>${env.RTX_PWD}</password>
+          <tag>${project.version}</tag>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -22,4 +67,12 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <distributionManagement>
+    <repository>
+      <id>mvn-repo</id>
+      <name>rtx-inspire</name>
+      <url>https://maven.pkg.github.com/rtx-inspire/build-test</url>
+    </repository>
+  </distributionManagement>
 </project>

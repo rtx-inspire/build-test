@@ -1,0 +1,23 @@
+name: Release on TAG
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'ref/tags/*')
+
+    steps:
+      - name: Create Release
+        id: release_project
+        uses: actions/create-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
